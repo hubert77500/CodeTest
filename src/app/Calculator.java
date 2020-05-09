@@ -56,16 +56,32 @@ public class Calculator {
 		);
 	}
 	
-	public void calculateWordOccurences(String text) {
+	public void calculateWordOccurences_dev(String text) {
 		List<String> wordList = Arrays.asList(text.split(" "));
 		wordList.stream().collect(Collectors.groupingBy(Function.identity(), Collectors.summingInt(e -> 1)))
 		.entrySet()
-        	.stream()
-        	.sorted((Map.Entry.<String, Integer>comparingByValue().reversed()))
-        	.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new))
-		.forEach((k, v) -> System.out.println(k +" - "+ v));
+        .stream()
+        .sorted((Map.Entry.<String, Integer>comparingByKey()))
+        .collect(Collectors.groupingBy(
+                Function.identity(), Collectors.counting()))
+        .forEach((k, v) -> System.out.println(k+" - "+v));
+        
 	}
 	
-	
+	/* Groups by occurrence frequency lower to higher and sub-grouped alphabetically special chars first, 
+	 * then upper case words alphabetically, then lower case words alphabetically. 
+	 * If upper and lower ordering is not OK, then it is possible to apply a lower case to all found words before grouping.
+	 */
+	public void calculateWordOccurences(String text) {
+		List<String> wordList = Arrays.asList(text.split(" "));
+		wordList.stream().collect(Collectors.groupingBy(Function.identity(), Collectors.summingInt(e -> 1)))
+			.entrySet().stream()
+	        	.sorted((Map.Entry.<String, Integer>comparingByKey()))
+	        	.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new))
+	        	.entrySet().stream()
+	        	.sorted((Map.Entry.<String, Integer>comparingByValue()))
+	        	.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new))
+			.forEach((k, v) -> System.out.println(k +" - "+ v));
+	}
 
 }
