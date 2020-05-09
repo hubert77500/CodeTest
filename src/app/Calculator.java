@@ -64,11 +64,11 @@ public class Calculator {
 		List<String> wordList = Arrays.asList(text.split(" "));
 		wordList.stream().collect(Collectors.groupingBy(Function.identity(), Collectors.summingInt(e -> 1)))
 			.entrySet().stream()
-	        .sorted((Map.Entry.<String, Integer>comparingByKey()))
-	        .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new))
-	        .entrySet().stream()
-	        .sorted((Map.Entry.<String, Integer>comparingByValue()))
-	        .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new))
+	        	.sorted((Map.Entry.<String, Integer>comparingByKey()))
+	        	.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new))
+	        	.entrySet().stream()
+	        	.sorted((Map.Entry.<String, Integer>comparingByValue()))
+	        	.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new))
 			.forEach((k, v) -> System.out.println(k +" - "+ v));
 	}
 
